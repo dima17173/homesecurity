@@ -1,0 +1,1 @@
+package com.impl.homesecurity.web.rest;

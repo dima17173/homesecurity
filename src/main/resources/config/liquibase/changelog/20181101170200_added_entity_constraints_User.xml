@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <!--
+        Added the constraints for entity InterconnectionUsers.
+    -->
+    <changeSet id="20181101170200" author="Pavel">
+
+        <addForeignKeyConstraint baseColumnNames="main_users_id"
+                                 baseTableName="user"
+                                 constraintName="fk_user_main_users_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="user"/>
+
+        <addForeignKeyConstraint baseColumnNames="role_id"
+                                 baseTableName="user"
+                                 constraintName="fk_user_role_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="role"/>
+
+        <!--<addForeignKeyConstraint baseColumnNames="device_id"-->
+                                 <!--baseTableName="user"-->
+                                 <!--constraintName="fk_user_device_id"-->
+                                 <!--referencedColumnNames="id"-->
+                                 <!--referencedTableName="device"/>-->
+    </changeSet>
+</databaseChangeLog>

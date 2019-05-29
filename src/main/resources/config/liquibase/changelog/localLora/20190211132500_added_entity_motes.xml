@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <property name="now" value="now()" dbms="h2"/>
+
+    <property name="now" value="now()" dbms="mysql"/>
+    <property name="autoIncrement" value="true"/>
+
+    <property name="floatType" value="float4" dbms="postgresql, h2"/>
+    <property name="floatType" value="float" dbms="mysql, oracle, mssql"/>
+
+    <!--
+        Added the entity motes.
+    -->
+    <changeSet id="20190211132500" author="vyacheslav">
+        <createTable tableName="motes">
+            <column name="eui" type="bigint unsigned">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="appEui" type="bigint unsigned">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="lastRxFrame" type="bigint unsigned">
+                <constraints nullable="true" />
+            </column>
+
+        </createTable>
+
+
+        <loadData encoding="UTF-8"
+                  file="config/liquibase/motesLora.csv"
+                  separator=";"
+                  tableName="motes">
+        </loadData>
+
+        <modifySql dbms="mysql">
+            <replace replace="VARCHAR(255)" with="VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci" />
+        </modifySql>
+
+    </changeSet>
+</databaseChangeLog>

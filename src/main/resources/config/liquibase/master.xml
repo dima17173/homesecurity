@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <include file="config/liquibase/changelog/20181026124300_added_entity_User.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20181026124301_added_entity_User-v2.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20181101172600_added_entity_User-v3.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20181026123500_added_entity_Device.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20181026121400_added_entity_AppData.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20181026121800_added_entity_Settings.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20181026122300_added_entity_Role.xml" relativeToChangelogFile="false"/>
+
+    <include file="config/liquibase/changelog/20181026125000_added_entity_InterconnectionUsers.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20181026131000_added_entity_UsersRole.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20181026131400_added_entity_UserDevices.xml" relativeToChangelogFile="false"/>
+
+    <include file="config/liquibase/changelog/20181101170200_added_entity_constraints_User.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20181101144600_added_entity_constraints_InterconnectionUsers.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20181102095500_added_entity_constraints_UserRole.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20181102105900_added_entity_constraints_UserDevices.xml" relativeToChangelogFile="false"/>
+
+    <include file="config/liquibase/changelog/20181126104700_added_entity_Settings_v3.xml" relativeToChangelogFile="false"/>
+
+</databaseChangeLog>

@@ -1,0 +1,92 @@
+version: 2 # which one use version CircleCI 2.0
+jobs:
+  test:
+
+    working_directory: ~/home-security-backend # directory where steps will run
+
+    machine: true # ...with this image as the primary container; this is where all `steps` will run
+
+    steps:
+    - checkout # check out source code to working directory
+
+    - restore_cache: # restore the saved cache after the first run or if `pom.xml` has changed
+      # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
+        key: home-security-backend-{{ checksum "pom.xml" }}
+
+    - restore_cache: # restore the saved cache after the first run or if `pom.xml` has changed
+        # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
+        key: home-security-backend-embedmysql
+
+    - run: sudo rm /var/lib/apt/lists/lock #need for Embedded MySQL DB at tests
+    - run: sudo rm /var/cache/apt/archives/lock #need for Embedded MySQL DB at tests
+    - run: sudo rm /var/lib/dpkg/lock #need for Embedded MySQL DB at tests
+    - run: sudo dpkg --configure -a #need for Embedded MySQL DB at tests
+    - run: sudo apt-get update && sudo apt-get install -y libaio1 #need for Embedded MySQL DB at tests
+    - run: mvn dependency:go-offline # gets the project dependencies
+
+    - save_cache: # saves the project dependencies
+        paths:
+        - ~/.m2
+        key: home-security-backend-{{ checksum "pom.xml" }}
+
+    - run: mvn test # run the actual tests
+    - save_cache: # saves the project dependencies
+        paths:
+        - ~/.embedmysql
+        key: home-security-backend-embedmysql
+
+    - store_test_results: # uploads the test metadata from the `target/surefire-reports` directory so that it can show up in the CircleCI dashboard.
+        # Upload test results for display in Test Summary: https://circleci.com/docs/2.0/collect-test-data/
+        path: target/surefire-reports
+
+    - store_artifacts: # store the uberjar as an artifact
+        # Upload test summary for display in Artifacts: https://circleci.com/docs/2.0/artifacts/
+        path: target/home-security-0.0.1-SNAPSHOT.jar
+
+  build_image:
+      machine: true
+      working_directory: ~/home-security-backend # directory where steps will run
+      steps:
+      - checkout
+      - restore_cache: # restore the saved cache after the first run or if `pom.xml` has changed
+          # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
+          key: home-security-backend-{{ checksum "pom.xml" }}
+
+      - restore_cache: # restore the saved cache after the first run or if `pom.xml` has changed
+          # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
+          key: home-security-backend-embedmysql
+
+      - run: sudo rm /var/lib/apt/lists/lock #need for Embedded MySQL DB at tests
+      - run: sudo rm /var/cache/apt/archives/lock #need for Embedded MySQL DB at tests
+      - run: sudo rm /var/lib/dpkg/lock #need for Embedded MySQL DB at tests
+      - run: sudo dpkg --configure -a #need for Embedded MySQL DB at tests
+      - run: sudo apt-get update && sudo apt-get install -y libaio1 #need for Embedded MySQL DB at tests
+      - run: mvn dependency:go-offline # gets the project dependencies
+
+      - save_cache: # saves the project dependencies
+          paths:
+          - ~/.m2
+          key: home-security-backend-{{ checksum "pom.xml" }}
+      - run: mvn verify
+      - save_cache: # saves the project dependencies
+          paths:
+          - ~/.embedmysql
+          key: home-security-backend-embedmysql
+      - run: docker build -t impltechteam/home-security:1.2 .
+      - run: docker login -u ivasenkopg -p p0504437173
+      - run: docker push impltechteam/home-security:1.2
+
+workflows:
+      version: 2
+      test-build:
+        jobs:
+          - test
+          - build_image:
+              requires:
+                - test
+              filters:
+                branches:
+                  only: develop
+
+
+

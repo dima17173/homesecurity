@@ -1,0 +1,20 @@
+{
+  "_links": {
+    "self": {
+      "href": "http://localhost/actuator",
+      "templated": false
+    },
+    "health": {
+      "href": "http://localhost/actuator/health",
+      "templated": false
+    },
+    "metrics": {
+      "href": "http://localhost/actuator/metrics",
+      "templated": false
+    },
+    "metrics-requiredMetricName": {
+      "href": "http://localhost/actuator/metrics/{requiredMetricName}",
+      "templated": true
+    }
+  }
+}

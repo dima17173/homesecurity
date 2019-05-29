@@ -1,0 +1,33 @@
+<configuration>
+
+    <appender name="Scheduled" class="ch.qos.logback.core.FileAppender">
+        <file>src/main/resources/application-scheduled.log</file>
+        <append>false</append>
+        <encoder>
+            <pattern>%date %level %t [%file.%M] %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <file>src/main/resources/application.log</file>
+        <append>false</append>
+        <encoder>
+            <pattern>%date %level [%file:%M] %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{dd-MM-yyyy HH:mm:ss.SSS} %magenta([%thread]) %highlight(%-5level) %logger{36}.%M - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="Scheduled"  additivity="false">
+        <appender-ref ref="Scheduled"/>
+    </logger>
+
+    <root>
+        <appender-ref ref="FILE" />
+        <appender-ref ref="STDOUT" />
+    </root>
+</configuration>
